@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-lg-6">
+        <form method="post" action="#">
+            <div class="input-group">
+                {{ search.hidden_tag() }}
+                {{ search.searchKey(class="form-control rounded-start-2") }}
+                {{ search.submit(class="btn btn-outline-secondary border-secondary-subtle") }}
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-6">
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group" role="group">
+                <button role="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createFolder"><i class="bi bi-folder-plus"></i></button>
+                <button role="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#uploadFile"><i class="bi bi-cloud-arrow-up"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-lg-12">
+        <table class="table table-sm align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Data modyfikacji</th>
+                    <th>Rozmiar</th>
+                    <th class="text-end">Edycja</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for folder in folders %}
+                    <tr>
+                        {% if path %}
+                        <td><a href="/dashboard?path={{ path }}/{{ folder.folderName }}" class="link-dark"><i class="{{ folder.icon }} me-2"></i>{{ folder.folderName }}</a></td>
+                        {% else %}
+                        <td><a href="/dashboard?path={{ folder.folderName }}" class="link-dark"><i class="{{ folder.icon }} me-2"></i>{{ folder.folderName }}</a></td>
+                        {% endif %}
+                        <td>{{ folder.time }}</td>
+                        <td></td>
+                        <td class="text-end">
+                            <a href="#" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteFolder{{ folder.id }}"><i class="bi bi-trash3 text-danger"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#renameFolder{{ folder.id }}"><i class="bi bi-pencil-square"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% for file in files %}
+                    <tr>
+                        <td>{{ file.fileName }}</td>
+                        <td>{{ file.time }}</td>
+                        <td>{{ file.size }} MB</td>
+                        <td class="text-end">
+                             <a href="#" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteFile{{ file.id }}"><i class="bi bi-trash3 text-danger"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#renameFile{{ file.id }}"><i class="bi bi-pencil-square"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
